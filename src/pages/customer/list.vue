@@ -1,14 +1,36 @@
 <template>
   <div class="home" >
     <!-- 按钮 -->
-    <el-button type="success" size="small" @click="toAddHandler">添加</el-button> 
-    <el-button type="danger" size="small">批量删除</el-button>
+   
+  
     <!-- /按钮 -->
     <!-- 表格 -->
     <el-table :data="customers">
-      <el-table-column prop="id" label="编号"></el-table-column>
-      <el-table-column prop="realname" label="姓名"></el-table-column>
-      <el-table-column prop="telephone" label="联系方式"></el-table-column>
+      <el-table-column prop="_id" label="编号"></el-table-column>
+         <el-table-column
+      prop="banner"
+      label="预览"
+      width="180">
+       <template slot-scope="scope">
+            <el-popover placement="top-start" title="" trigger="hover">
+              <img :src="scope.row.imgsrc" alt="" style=" width: 40px;height: 40px;">
+              <img slot="reference" fit="contain" :src="scope.row.imgsrc" style=" width: 50px;height: 50px">
+            </el-popover>
+        </template>
+    </el-table-column>
+      <el-table-column prop="author" label="姓名"></el-table-column>
+             <el-table-column
+      prop="banner"
+      label="头像"
+      width="180">
+       <template slot-scope="scope">
+            <el-popover placement="top-start" title="" trigger="hover">
+              <img :src="scope.row.avater" alt="" style=" width: 40px;height: 40px;">
+              <img slot="reference" fit="contain" :src="scope.row.avater" style=" width: 50px;height: 50px">
+            </el-popover>
+        </template>
+    </el-table-column>
+      <el-table-column prop="time" label="时间"></el-table-column>
       
       <el-table-column label="操作">
         <template v-slot="slot">
@@ -63,7 +85,7 @@ export default {
   // 用于存放网页中需要调用的方法
   methods:{
     loadData(){
-      let url = "http://134.175.154.93:6677/customer/findAll"
+      let url = "/getpics"
       request.get(url).then((response)=>{
         // 将查询结果设置到customers中，this指向外部函数的this
         this.customers = response.data;

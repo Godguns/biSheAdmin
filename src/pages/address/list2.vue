@@ -170,9 +170,9 @@ export default {
        toDeleteHandler(e){
            console.log(e)
            request({
-               url:'/del_pics',
+               url:'/del_tj',
                params:{
-                   id:e
+                   _id:e
                },
                method:'get'
            }).then(response=>{
@@ -180,7 +180,7 @@ export default {
                 message: '删除成功',
                 type: 'success'
                  });
-                 //this.getablum()
+                 this.getablum()
            })
        }
     },

@@ -60,10 +60,6 @@
       prop="tags"
       label="爱好">
     </el-table-column>
-   <el-table-column label="操作" style=" justify-content: center; display:flex;">
-     
-  <el-button type="danger" icon="el-icon-delete" circle></el-button>
-   </el-table-column>
   </el-table>
   <el-dialog title="添加用户" :visible.sync="dialogTableVisible">
   <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">

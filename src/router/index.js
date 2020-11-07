@@ -82,13 +82,13 @@ export const constantRoutes = [
         path: 'list',
         name: 'CustomerList',
         component: () => import('@/pages/customer/list'),
-        meta: { title: '游学项目', icon: 'chat' }
+        meta: { title: '游学课程', icon: 'chat' }
       },
       {
         path: 'list2',
         name: 'AddressList2',
         component: () => import('@/pages/address/list2'),
-        meta: { title: '学生风采', icon: 'chat' }
+        meta: { title: '学员推荐', icon: 'chat' }
       },
       // {
       //   path: 'list2',
@@ -106,7 +106,7 @@ export const constantRoutes = [
         path: 'listj',
         name: 'AddressList2',
         component: () => import('@/pages/address/listj'),
-        meta: { title: '精彩瞬间', icon: 'table' }
+        meta: { title: '添加课程', icon: 'table' }
       }
     ]
   },
@@ -130,7 +130,7 @@ export const constantRoutes = [
         path: 'list3',
         name: 'AddressList2',
         component: () => import('@/pages/address/list3'),
-        meta: { title: '研学项目', icon: 'table' }
+        meta: { title: '风采项目', icon: 'table' }
       }
     ]
   },
@@ -158,18 +158,7 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/quanxian',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       name: 'CommentList',
-  //       component: () => import('@/pages/comment/list'),
-  //       meta: { title: '角色设置', icon: 'user' }
-  //     }
-  //   ]
-  // },
+
 
   {
     path: '/xitongguanl',

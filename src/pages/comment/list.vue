@@ -48,10 +48,16 @@
         </template>
     </el-table-column>
    
-   <el-table-column label="操作" style=" justify-content: center; display:flex;">
+  
      
-  <el-button type="danger" icon="el-icon-delete" circle></el-button>
-   </el-table-column>
+     <el-table-column label="操作">
+                <!-- v-slot用于获取当前行数据 -->
+                <template v-slot="slot">
+                    <a href="" @click.prevent="del(slot.row._id)">删除</a>
+                   
+                </template>
+            </el-table-column>
+
   </el-table>
    <el-dialog title="添加轮播图" :visible.sync="dialogTableVisible">
   <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
@@ -104,6 +110,21 @@ export default {
     },
     // 存放网页中需要调用的方法
     methods:{
+      del(e){
+            request({
+               url:'/del_banner',
+               params:{
+                   _id:e
+               },
+               method:'get'
+           }).then(response=>{
+                 this.$message({
+                message: '删除成功',
+                type: 'success'
+                 });
+                 this.getablum()
+           })
+      },
      handleRemove(file, fileList) {
         console.log(file, fileList);
       },
