@@ -54,6 +54,18 @@ export const constantRoutes = [
       meta: { title: '用户管理', icon: 'dashboard' }
     }]
   },
+  {
+    path: '/news',
+    component: Layout,
+    children: [
+      {
+        path: 'news',
+        name: 'AddressList2',
+        component: () => import('@/pages/address/news'),
+        meta: { title: '动态管理', icon: 'table' }
+      }
+    ]
+  },
 
   // {
   //   path: '/customer',

@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     
-    <el-button type="success" size="small" style="margin-bottom:20px;" @click="dialogTableVisible = true">添加已有用户</el-button> 
+   
           <el-table
     :data="usermsgs"
     border
@@ -22,44 +22,27 @@
             </el-popover>
         </template>
     </el-table-column>
-     <!-- <el-table-column
-      prop="avater"
-      label="角色"
-      width="180">
-       <template slot-scope="scope">
-         <template>
-          <el-select v-model="value" placeholder="用户">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </template>
-            
-        </template>
-    </el-table-column> -->
-       <el-table-column
-      prop="avater"
-      label="状态"
-      width="180">
-      
-        <template slot-scope="scope">
-         <template>
-           <h6 style="color:green;">可用</h6>
-        </template>
-            
-        </template>
-    </el-table-column>
+
+
     <el-table-column
       prop="_id"
-      label="联系方式">
+      label="编号">
     </el-table-column>
      <el-table-column
-      prop="tags"
-      label="爱好">
+      prop="content"
+      label="内容">
     </el-table-column>
+         <el-table-column
+      prop="time"
+      label="时间">
+    </el-table-column>
+      <el-table-column label="操作">
+        <template v-slot="slot">
+          <a href="" @click.prevent="toDeleteHandler(slot.row._id)">删除</a>
+         
+        </template>
+      </el-table-column>
+    
   </el-table>
   <el-dialog title="添加用户" :visible.sync="dialogTableVisible">
   <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
@@ -72,7 +55,7 @@
   <el-form-item label="角色">
     <el-input v-model="js"></el-input>
   </el-form-item>
-   <el-form-item label="爱好">
+   <el-form-item label="内容">
     <el-input v-model="tags"></el-input>
   </el-form-item>
   
@@ -120,6 +103,25 @@ export default {
     this.getusermsgs()
   },
   methods:{
+      toDeleteHandler(e){
+                 request({
+        url: '/deltc',
+        method: 'get',
+        params:{
+            _id:e
+        }
+
+  }).then(response=>{
+    console.log(response)
+    this.getusermsgs()
+     this.$message({
+          message: '恭喜你，删除成功',
+          type: 'success'
+        });
+    
+  })
+
+      },
     adduser(){
       request({
         url:'/addusers',
@@ -130,12 +132,12 @@ export default {
     },
     getusermsgs(){
          request({
-        url: '/getusers',
+        url: '/api/v1/spit',
         method: 'get',
 
   }).then(response=>{
     this.usermsgs=response.data
-    console.log(this.usermsgs)
+    console.log(response.data)
   })
     }
   },

@@ -5,11 +5,11 @@
         <el-button type="success" style="margin-bottom:20px;" @click="toAddHandler">添加常见问题</el-button>
        <div class="content">
             <el-row>
-  <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-    <el-card :body-style="{ padding: '0px' }">
-      <img src="http://dongdove.cn/FkshNy9z9L7o9lpHWKcpnY7kU3eE" class="image">
+  <el-col :span="8" v-for="(o, index) in projectlist" :key="o" :offset="index > 0 ? 2 : 0">
+    <el-card class="card" :body-style="{ padding: '0px' }">
+      <img :src="o.imgsrc" class="image">
       <div style="padding: 14px;">
-        <span>开发者日志{{index+1}}</span>
+        <span>{{o.content}}</span>
         <div class="bottom clearfix">
           <time class="time">{{ currentDate }}</time>
           <el-button type="text" class="button">操作按钮</el-button>
@@ -24,14 +24,26 @@
          <el-form  label-width="80px">
            
         
-            <el-form-item label="项目名称">
+            <el-form-item label="日志名称">
                 <el-input  v-model="name"></el-input>
             </el-form-item >
-           <el-form-item label="承办单位">
+           <el-form-item label="日志内容">
                 <el-input  v-model="danwei"></el-input>
             </el-form-item >
-            <el-form-item label="项目状态">
-                <el-input  v-model="xmzt"></el-input>
+            <el-form-item label="日志配图">
+ 
+                               <el-upload
+                               :on-exceed="toast"
+                               :limit="1"
+                               :multiple="no"
+                                class="avatar-uploader"
+                                action="http://upload-z2.qiniup.com"
+                                    :on-remove="remove"
+                                    :on-success="handleAvatarSuccess"
+                                    :data="{token: token}">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i class="el-icon-plus avatar-uploader-icon"></i>
+                                </el-upload>
             </el-form-item >
         <el-form-item label="状态">
                 <el-input  v-model="zt"></el-input>
@@ -80,6 +92,33 @@
   .clearfix:after {
       clear: both
   }
+    .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+  .card{
+      width: 250px;
+     
+  }
 </style>
 
 <script>
@@ -93,40 +132,58 @@ export default {
             name:"",
             danwei:"",
             xmzt:"",
-            zt:""
+            zt:"",
+            token:'',
+            imageUrl:''
         }
     },
     created(){
+        this.gettoken()
         this.getdata()
     },
     methods:{
+         handleAvatarSuccess(res, file) {
+        this.imageUrl = 'http://dongdove.cn/'+res.hash;
+      },
         toAddHandler(){
             this.visible=true
         },
         submit(){
             request({
-                url:'/add_project',
+                url:'/addnote',
                 method:'get',
                 params:{
-                    name:this.name,
-                    content:this.danwei,
-                    xmstatus:this.xmzt,
-                    status:this.zt
+                   imgsrc:this.imageUrl,
+                   username:sessionStorage.getItem('username'),
+                   avater:sessionStorage.getItem('avater'),
+                   content:this.danwei,
+                   time:new Date().getUTCMonth()
 
                 }
             }).then(response=>{
                     this.getdata();
                     this.projectlist=response.data
                     this.visible=false
+                    this.getdata()
             })
         },
         getdata(){
             request({
-                url:'/getproject',
+                url:'/getnote',
                 method:'get',
             }).then(response=>{
                 this.projectlist=response.data;
                 console.log(response.data)
+            })
+        },
+        gettoken(){
+                    request({
+                url:'/api/v1/file/token',
+                method:'get',
+  
+            }).then(response=>{
+                   //console.log(response.data)
+                  this.token=response.token
             })
         }
     }
